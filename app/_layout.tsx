@@ -15,7 +15,15 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Thin: require("../assets/fonts/Montserrat-Thin.ttf"),
+    ExtraLight: require("../assets/fonts/Montserrat-ExtraLight.ttf"),
+    Light: require("../assets/fonts/Montserrat-Light.ttf"),
+    Regular: require("../assets/fonts/Montserrat-Regular.ttf"),
+    Medium: require("../assets/fonts/Montserrat-Medium.ttf"),
+    SemiBold: require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    Bold: require("../assets/fonts/Montserrat-Bold.ttf"),
+    ExtraBold: require("../assets/fonts/Montserrat-ExtraBold.ttf"),
+    Black: require("../assets/fonts/Montserrat-Black.ttf"),
   });
 
   if (!loaded) {
