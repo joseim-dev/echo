@@ -12,7 +12,7 @@ export default function QuoteListItem({
       <View className="w-[22%]  h-full flex justify-center items-center ">
         <TouchableOpacity
           activeOpacity={0.75}
-          className="h-[66%] aspect-square bg-teal-900 rounded-full"
+          className="h-[64%] aspect-square bg-teal-900 rounded-full"
         />
       </View>
       <TouchableOpacity

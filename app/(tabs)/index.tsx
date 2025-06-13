@@ -1,5 +1,5 @@
 import MainHeader from "@/components/header/MainHeader";
-import QuoteListItem from "@/components/page/QuoteListItem";
+import QuoteListItem from "@/components/page/home/QuoteListItem";
 import PageTitle from "@/components/title/PageTitle";
 import { View } from "react-native";
 
@@ -21,6 +21,10 @@ export default function HomeScreen() {
         <QuoteListItem
           name={"Napoleon Bonaparte"}
           content={"Hello my freind nice to meet you!"}
+        />
+        <QuoteListItem
+          name={"Nelson Mandela"}
+          content={"Don't give up. Life is yours. Grit is all that matters."}
         />
       </View>
     </View>
