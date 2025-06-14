@@ -1,30 +1,36 @@
 import { ImageBackground } from "expo-image";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageSourcePropType,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function QuoteListItem({
   name,
   content,
+  img,
 }: {
   name: string;
   content: string;
+  img: ImageSourcePropType;
 }) {
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
 
   return (
     <View className="w-[92%] h-[90px]  flex-row border-b-[1px] border-[#282828]">
-      <View className="w-[22%]  h-full flex justify-center items-center ">
+      <View className="w-[22%]  h-full flex justify-center items-start ">
         <TouchableOpacity
           activeOpacity={0.75}
-          className="h-[64%] aspect-square bg-teal-900 rounded-full"
+          className="h-[64%] aspect-square rounded-full overflow-hidden"
         >
           <ImageBackground
             style={{
               width: "100%",
-              aspectRatio: 1,
-              borderRadius: 100,
-              overflow: "hidden",
+              height: "100%",
+              transform: [{ scale: 1.05 }],
             }}
-            source={require("@/assets/images/figures/art-van-gogh.png")}
+            source={img}
             placeholder={{ blurhash }}
             contentFit="cover"
             transition={1000}
