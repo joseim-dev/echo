@@ -9,11 +9,11 @@ import {
 export default function QuoteListItem({
   name,
   content,
-  img,
+  imgUrl,
 }: {
   name: string;
   content: string;
-  img: ImageSourcePropType;
+  imgUrl: ImageSourcePropType;
 }) {
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
 
@@ -30,7 +30,7 @@ export default function QuoteListItem({
               height: "100%",
               transform: [{ scale: 1.05 }],
             }}
-            source={img}
+            source={imgUrl}
             placeholder={{ blurhash }}
             contentFit="cover"
             transition={1000}
@@ -41,8 +41,11 @@ export default function QuoteListItem({
         className="w-[78%] flex  h-fit justify-center pl-2"
         activeOpacity={0.7}
       >
-        <View className="w-full h-[45%] justify-end">
+        <View className="w-full h-[45%] flex-row items-end">
           <Text className="text-white font-[Medium] text-lg">{name} </Text>
+          <View className="w-[10px] h-[50%] flex justify-start items-center">
+            <View className="w-[7px] h-[5px] rounded-full bg-[#7765EC]" />
+          </View>
         </View>
         <View className="w-full h-[55%] ">
           <Text

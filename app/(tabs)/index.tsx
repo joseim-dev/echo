@@ -65,7 +65,7 @@ export default function HomeScreen() {
             <QuoteListItem
               name={item.name}
               content={item.content}
-              img={item.img}
+              imgUrl={item.img}
             />
           )}
           contentContainerStyle={{ alignItems: "center", paddingBottom: 20 }}
