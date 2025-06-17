@@ -1,4 +1,5 @@
 import MainHeader from "@/components/header/MainHeader";
+import ChannelModal from "@/components/modal/ChannelModal";
 import CategoryPicker from "@/components/page/store/CategoryPicker";
 import StoreFigureCard from "@/components/page/store/StoreFigureCard";
 import PageTitle from "@/components/title/PageTitle";
@@ -41,6 +42,8 @@ const mockFigures = [
 export default function TabTwoScreen() {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     console.log("Selected Category", selectedCategory);
   }, [selectedCategory]);
@@ -80,12 +83,21 @@ export default function TabTwoScreen() {
               name={item.name}
               desc={item.desc}
               imgUrl={item.imgUrl}
+              onPress={() => {
+                setModalVisible(true);
+              }}
             />
           )}
           ListFooterComponent={<View className=" w-full h-[120px]" />}
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <ChannelModal
+        modalVisible={modalVisible}
+        onClose={() => {
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 }

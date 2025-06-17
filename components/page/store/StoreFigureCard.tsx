@@ -11,16 +11,17 @@ export default function StoreFigureCard({
   name,
   desc,
   imgUrl,
+  onPress,
 }: {
   name: string;
   desc: string;
   imgUrl: ImageSourcePropType;
+  onPress: () => void;
 }) {
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
   return (
     <View className="w-[47%]">
-      <TouchableOpacity activeOpacity={0.85}>
-        ㄴ
+      <TouchableOpacity activeOpacity={0.85} onPress={onPress}>
         <Image
           style={{
             width: "100%",
@@ -34,9 +35,9 @@ export default function StoreFigureCard({
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.85}>
-        <Text className="font-semibold text-white text-lg mt-2">{name}</Text>
+        <Text className="font-[SemiBold] text-white text-lg mt-2">{name}</Text>
       </TouchableOpacity>
-      <Text className="font-semibold text-[#828282] text-md">{desc}</Text>
+      <Text className="font-[Regular] text-[#828282] text-md">{desc}</Text>
     </View>
   );
 }
