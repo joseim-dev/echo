@@ -1,6 +1,8 @@
 import MainHeader from "@/components/header/MainHeader";
+import QuoteModal from "@/components/modal/QuoteModal";
 import QuoteListItem from "@/components/page/home/QuoteListItem";
 import PageTitle from "@/components/title/PageTitle";
+import { useState } from "react";
 import { FlatList, ImageSourcePropType, View } from "react-native";
 
 export default function HomeScreen() {
@@ -44,6 +46,7 @@ export default function HomeScreen() {
     },
   ];
 
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View className="w-full h-full  bg-black  flex justify-start items-center">
       {/* Header */}
@@ -66,11 +69,21 @@ export default function HomeScreen() {
               name={item.name}
               content={item.content}
               imgUrl={item.img}
+              onPress={() => {
+                setModalVisible(true);
+              }}
             />
           )}
           contentContainerStyle={{ alignItems: "center", paddingBottom: 20 }}
         />
       </View>
+
+      <QuoteModal
+        modalVisible={modalVisible}
+        onClose={() => {
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 }

@@ -10,10 +10,12 @@ export default function QuoteListItem({
   name,
   content,
   imgUrl,
+  onPress,
 }: {
   name: string;
   content: string;
   imgUrl: ImageSourcePropType;
+  onPress: () => void;
 }) {
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
 
@@ -23,6 +25,7 @@ export default function QuoteListItem({
         <TouchableOpacity
           activeOpacity={0.75}
           className="h-[64%] aspect-square rounded-full overflow-hidden"
+          onPress={onPress}
         >
           <ImageBackground
             style={{
@@ -40,6 +43,7 @@ export default function QuoteListItem({
       <TouchableOpacity
         className="w-[78%] flex  h-fit justify-center pl-2"
         activeOpacity={0.7}
+        onPress={onPress}
       >
         <View className="w-full h-[45%] flex-row items-end">
           <Text className="text-white font-[Medium] text-lg">{name} </Text>
