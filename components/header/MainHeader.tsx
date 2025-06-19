@@ -1,13 +1,37 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
+import { TouchableOpacity, View } from "react-native";
 
 export default function MainHeader() {
+  const router = useRouter();
   return (
     <View className="w-[92%] flex-row justify-between items-end h-full pb-2">
-      <Text className="font-[Bold] text-2xl text-white">Echo</Text>
+      <Image
+        style={{
+          width: "11%",
+          height: 32,
+        }}
+        source={require("@/assets/images/logo.png")}
+        contentFit="contain"
+      />
       <View className="w-fit h-fit flex-row gap-4">
-        <Ionicons name="notifications-outline" size={24} color="#ffffff" />
-        <Ionicons name="settings-outline" size={24} color="#ffffff" />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            router.push("/notification");
+          }}
+        >
+          <Ionicons name="notifications-outline" size={24} color="#ffffff" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            router.push("/settings");
+          }}
+        >
+          <Ionicons name="settings-outline" size={24} color="#ffffff" />
+        </TouchableOpacity>
       </View>
     </View>
   );

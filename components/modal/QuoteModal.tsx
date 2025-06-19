@@ -29,12 +29,12 @@ export default function QuoteModal({
           </View>
 
           <View className="w-full h-fit  flex justify-center items-center py-10 px-5">
-            <Text className="text-white font-[Regular] text-xl">
+            <Text className="text-white font-[QuoteRegular] text-[18px] text-center">
               Hello this is kanye. This is a test quote. Ya'll gonna miss me
               like how you miss the old me
             </Text>
 
-            <Text className="text-white font-[Regular] text-xl mt-8">
+            <Text className="text-white font-[QuoteRegular] text-[18px] mt-8 ">
               - Kanye West -
             </Text>
           </View>

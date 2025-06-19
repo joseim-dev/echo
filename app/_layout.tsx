@@ -1,9 +1,9 @@
+import "@/global.css";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import "@/global.css";
 
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -24,6 +24,8 @@ export default function RootLayout() {
     Bold: require("../assets/fonts/Montserrat-Bold.ttf"),
     ExtraBold: require("../assets/fonts/Montserrat-ExtraBold.ttf"),
     Black: require("../assets/fonts/Montserrat-Black.ttf"),
+    QuoteRegular: require("../assets/fonts/Lora-Regular.ttf"),
+    QuoteMedium: require("../assets/fonts/Lora-Medium.ttf"),
   });
 
   if (!loaded) {
@@ -35,7 +37,9 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" options={{ headerShown: false }} />
+        <Stack.Screen name="notification" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
