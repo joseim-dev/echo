@@ -20,7 +20,7 @@ export default function ChannelModal({
       onRequestClose={onClose}
     >
       {/* 전체 배경 (투명한 오버레이) */}
-      <View className="w-full h-full bg-gray-800 bg-opacity-80 justify-center items-center">
+      <View className="w-full h-full bg-[#010101] bg-opacity-80 justify-center items-center">
         {/* 모달 내용 (작은 박스) */}
         <View className="w-[90%] h-[76%] p-3 bg-black rounded-xl border-2 border-[#483D90]">
           <View className="w-full h-[5%]  flex items-end justify-center">
@@ -66,12 +66,26 @@ export default function ChannelModal({
                   bgColor="#E04346"
                   borderColor="#903D3E"
                 />
+
+                <StatBar
+                  name="Philosophical"
+                  number={5}
+                  bgColor="#7765EC"
+                  borderColor="#483D90"
+                />
+
+                <StatBar
+                  name="Artistic"
+                  number={1}
+                  bgColor="#7765EC"
+                  borderColor="#483D90"
+                />
               </ScrollView>
             </View>
           </View>
           <View className="w-full h-[13%] flex items-center justify-end">
             <TouchableOpacity
-              className="w-[82%] bg-[#7765EC] h-[50px] rounded-full  mb-[2%] flex justify-center items-center"
+              className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
             >
               <Text className="text-white font-[Medium] text-[16px]">
