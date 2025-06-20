@@ -12,11 +12,12 @@ export default function CategoryPicker({
     all: { id: 1, title: "All" },
     art: { id: 2, title: "Art" },
     philosophy: { id: 3, title: "Philosophy" },
-    religion: { id: 4, title: "Religion" },
-    war: { id: 5, title: "War" },
-    nobelPrize: { id: 6, title: "Nobel Prize" },
-    music: { id: 7, title: "Grammy" },
-    pulitzer: { id: 8, title: "Pulitzer" },
+    sports: { id: 4, title: "Sports" },
+    politics: { id: 5, title: "Politics" },
+    literature: { id: 6, title: "Literature" },
+    christianity: { id: 7, title: "Christianity" },
+    science: { id: 8, title: "Science" },
+    history: { id: 9, title: "History" },
   };
 
   return (

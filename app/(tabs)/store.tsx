@@ -3,41 +3,11 @@ import ChannelModal from "@/components/modal/ChannelModal";
 import CategoryPicker from "@/components/page/store/CategoryPicker";
 import StoreFigureCard from "@/components/page/store/StoreFigureCard";
 import PageTitle from "@/components/title/PageTitle";
-import React, { useEffect, useState } from "react";
+import { FiguresInfo } from "@/constants/Figures";
+import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, View } from "react-native";
 
-const mockFigures = [
-  {
-    id: "1",
-    name: "Napoleon Bonaparte",
-    desc: "Emperor",
-    imgUrl: require("@/assets/images/figures/history-napoleon.png"),
-  },
-  {
-    id: "2",
-    name: "Kanye West",
-    desc: "Physicist",
-    imgUrl: require("@/assets/images/figures/music-kanye.png"),
-  },
-  {
-    id: "3",
-    name: "Van Gogh",
-    desc: "Artist",
-    imgUrl: require("@/assets/images/figures/art-van-gogh.png"),
-  },
-  {
-    id: "4",
-    name: "Marie Curie",
-    desc: "Scientist",
-    imgUrl: require("@/assets/images/figures/religion-apostle-paul.png"),
-  },
-  {
-    id: "5",
-    name: "Leonardo da Vinci",
-    desc: "Polymath",
-    imgUrl: require("@/assets/images/figures/history-napoleon.png"),
-  },
-];
+const mockFigures = FiguresInfo;
 
 export default function TabTwoScreen() {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -48,6 +18,18 @@ export default function TabTwoScreen() {
     console.log("Selected Category", selectedCategory);
   }, [selectedCategory]);
 
+  const mockFigures = useMemo(() => {
+    if (selectedCategory === "all") return FiguresInfo;
+    return FiguresInfo.filter(
+      (item) =>
+        item.category &&
+        item.category.toLowerCase() === selectedCategory.toLowerCase()
+    );
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    console.log("Selected Category", selectedCategory);
+  }, [selectedCategory]);
   return (
     <View className="w-full h-full bg-black flex justify-start items-center">
       {/* Header */}
@@ -81,7 +63,7 @@ export default function TabTwoScreen() {
           renderItem={({ item }) => (
             <StoreFigureCard
               name={item.name}
-              desc={item.desc}
+              desc={item.title}
               imgUrl={item.imgUrl}
               onPress={() => {
                 setModalVisible(true);

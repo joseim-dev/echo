@@ -29,7 +29,7 @@ export default function StoreFigureCard({
             overflow: "hidden", // 테두리 밖 이미지 잘림 방지
           }}
           source={imgUrl}
-          placeholder={{ blurhash }}
+          // placeholder={{ blurhash }}
           contentFit="cover" // 또는 "contain" 필요에 따라 변경
           transition={1000}
         />
