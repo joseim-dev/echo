@@ -22,7 +22,7 @@ export default function ChannelModal({
       {/* 전체 배경 (투명한 오버레이) */}
       <View className="w-full h-full bg-[#010101] bg-opacity-80 justify-center items-center">
         {/* 모달 내용 (작은 박스) */}
-        <View className="w-[90%] h-[76%] p-3 bg-black rounded-xl border-2 border-[#483D90]">
+        <View className="w-[90%] h-[76%] p-3 bg-black rounded-xl border-2 border-[#373737]">
           <View className="w-full h-[5%]  flex items-end justify-center">
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close" color={"#ffffff"} size={28} />
