@@ -18,7 +18,7 @@ export default function StatBar({
 
   return (
     <View className="flex items-start w-full mb-5">
-      <Text className="text-white text-md mb-1">{name}</Text>
+      <Text className="text-white text-md mb-2 font-medium">{name}</Text>
       <View
         className="w-full h-[16px] rounded-xl overflow-hidden flex-row"
         style={{

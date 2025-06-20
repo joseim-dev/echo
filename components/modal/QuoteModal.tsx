@@ -22,7 +22,7 @@ export default function QuoteModal({
     if (modalVisible) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1600,
+        duration: 1200,
         useNativeDriver: true,
       }).start();
     } else {
