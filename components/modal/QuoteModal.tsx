@@ -56,7 +56,7 @@ export default function QuoteModal({
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View className="w-full h-full bg-[#101010] flex justify-start items-center ">
-        <View className="w-full flex justify-end items-center h-[15%] ">
+        <View className="w-full flex justify-end items-center h-[17%] ">
           <View className=" h-[60px] aspect-square rounded-full overflow-hidden border-gray-800 border-2">
             <Image
               style={{
@@ -65,13 +65,16 @@ export default function QuoteModal({
                 overflow: "hidden", // 테두리 밖 이미지 잘림 방지
                 transform: [{ scale: 1.05 }],
               }}
-              source={require("@/assets/images/figures/music-kanye.png")}
+              source={channelInfo?.imgUrl}
               contentFit="cover" // 또는 "contain" 필요에 따라 변경
               transition={1000}
             />
           </View>
+          <Text className="text-gray-200 font-[QuoteRegular] text-[12px]  text-center mt-[6px]">
+            {channelInfo?.name}
+          </Text>
         </View>
-        <View className="w-[92%] h-[70%] flex justify-center">
+        <View className="w-[92%] h-[68%] flex justify-center">
           <ScrollView contentContainerClassName="flex-1 justify-center">
             <Animated.Text
               style={{ opacity: fadeAnim }}
