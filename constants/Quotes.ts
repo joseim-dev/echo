@@ -1,3 +1,5 @@
+// import { QuotesData } from "@/types/type"; // types.ts에서 정의된 FigureInfo와 QuotesData를 import
+
 export const QuotesData: { [key: string]: string[] } = {
   "history-napoleon": [
     "Impossible is a word to be found only in the dictionary of fools.",

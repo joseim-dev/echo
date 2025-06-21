@@ -1,4 +1,6 @@
-export const FiguresInfo = [
+import { FigureInfo } from "@/types/type"; // types.ts에서 정의된 FigureInfo와 QuotesData를 import
+
+export const FiguresInfo: FigureInfo[] = [
   {
     category: "History",
     name: "Napoloen Bonaparte",

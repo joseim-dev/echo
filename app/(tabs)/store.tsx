@@ -18,6 +18,7 @@ export default function TabTwoScreen() {
     require("@/assets/images/icon.png")
   ); // Initialize with undefined or null
   const [desc, setDesc] = useState("");
+  const [id, setId] = useState("");
 
   useEffect(() => {
     console.log("Selected Category", selectedCategory);
@@ -75,6 +76,7 @@ export default function TabTwoScreen() {
                 setDesc(item.desc);
                 setImgUrl(item.imgUrl);
                 setName(item.name);
+                setId(item.id);
               }}
             />
           )}
@@ -89,6 +91,7 @@ export default function TabTwoScreen() {
         }}
         name={name}
         imgUrl={imgUrl}
+        id={id}
         desc={desc}
       />
     </View>

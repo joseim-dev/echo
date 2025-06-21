@@ -1,23 +1,16 @@
+import getChannelInfo from "@/utils/getChannelInfo";
 import { ImageBackground } from "expo-image";
-import {
-  ImageSourcePropType,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 export default function QuoteListItem({
-  name,
-  content,
-  imgUrl,
+  id,
   onPress,
 }: {
-  name: string;
-  content: string;
-  imgUrl: ImageSourcePropType;
+  id: string;
   onPress: () => void;
 }) {
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
+  const channelInfo = getChannelInfo({ id });
 
   return (
     <View className="w-[92%] h-[90px]  flex-row border-b-[1px] border-[#282828]">
@@ -33,7 +26,7 @@ export default function QuoteListItem({
               height: "100%",
               transform: [{ scale: 1.05 }],
             }}
-            source={imgUrl}
+            source={channelInfo?.imgUrl}
             placeholder={{ blurhash }}
             contentFit="cover"
             transition={1000}
@@ -46,7 +39,9 @@ export default function QuoteListItem({
         onPress={onPress}
       >
         <View className="w-full h-[45%] flex-row items-end">
-          <Text className="text-white font-[Medium] text-lg">{name} </Text>
+          <Text className="text-white font-[Medium] text-lg">
+            {channelInfo?.name}{" "}
+          </Text>
           <View className="w-[10px] h-[50%] flex justify-start items-center">
             <View className="w-[7px] h-[5px] rounded-full bg-[#7765EC]" />
           </View>
@@ -56,7 +51,7 @@ export default function QuoteListItem({
             className=" font-[Medium] text-md text-[#606060]"
             numberOfLines={2}
           >
-            {content}
+            hello{" "}
           </Text>
         </View>
       </TouchableOpacity>

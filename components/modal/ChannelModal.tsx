@@ -10,17 +10,21 @@ import {
 // @ts-ignore
 // import ProgressBar from "react-native-animated-progress";
 
+import { addFigureToMyQuotes } from "@/storage/myQuotesStorage";
+
 export default function ChannelModal({
   name,
   imgUrl,
   desc,
   modalVisible,
+  id,
   onClose,
 }: {
   name: string;
   desc: string;
   imgUrl: ImageSourcePropType;
   modalVisible: boolean;
+  id: string;
   onClose: () => void;
 }) {
   return (
@@ -108,6 +112,7 @@ export default function ChannelModal({
             <TouchableOpacity
               className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
+              onPress={() => addFigureToMyQuotes(id)}
             >
               <Text className="text-white font-[Medium] text-[18px]">
                 Add him/her (Ad)
