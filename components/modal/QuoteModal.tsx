@@ -75,7 +75,7 @@ export default function QuoteModal({
           <ScrollView contentContainerClassName="flex-1 justify-center">
             <Animated.Text
               style={{ opacity: fadeAnim }}
-              className="text-gray-200 font-[QuoteMedium] text-[23px] text-start leading-[34px]"
+              className="text-gray-200 font-[QuoteMedium] text-[23px] text-center leading-[34px]"
             >
               {formattedQuote}
             </Animated.Text>

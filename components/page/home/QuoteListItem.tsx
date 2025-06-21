@@ -19,7 +19,7 @@ export default function QuoteListItem({
   useEffect(() => {
     const fetchQuote = async () => {
       const entry = await getTodaysQuoteById(id);
-      setQuote(entry);
+      setQuote(entry?.text ?? ""); // ✅ 문자열만 저장
     };
     fetchQuote();
   }, [id]);
@@ -63,7 +63,7 @@ export default function QuoteListItem({
             className="font-[Medium] text-md text-[#606060]"
             numberOfLines={2}
           >
-            {quote ?? "No quote for today."}
+            {quote || "No quote for today."}
           </Text>
         </View>
       </TouchableOpacity>
