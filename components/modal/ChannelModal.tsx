@@ -3,12 +3,10 @@ import { Image } from "expo-image";
 import {
   ImageSourcePropType,
   Modal,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import StatBar from "../ui/StatBar";
 // @ts-ignore
 // import ProgressBar from "react-native-animated-progress";
 
@@ -42,15 +40,18 @@ export default function ChannelModal({
             </TouchableOpacity>
           </View>
 
-          <View className="w-full h-[43%]  ">
-            <View className="w-full h-[80%]  flex items-center justify-center">
-              <View className=" h-[82%] aspect-square rounded-full overflow-hidden border-gray-800 border-2">
+          <View className="w-full h-[85%] flex justify-center items-center  ">
+            <View className="w-full h-[42%]  flex items-center justify-center">
+              <View className=" h-[88%] aspect-square rounded-full overflow-hidden border-[#767676] border-2">
                 <Image
                   style={{
                     height: "100%",
                     aspectRatio: 1,
                     overflow: "hidden", // 테두리 밖 이미지 잘림 방지
                     transform: [{ scale: 1.05 }],
+                    borderWidth: 4,
+
+                    borderColor: "#787878",
                   }}
                   source={imgUrl}
                   contentFit="cover" // 또는 "contain" 필요에 따라 변경
@@ -58,14 +59,19 @@ export default function ChannelModal({
                 />
               </View>
             </View>
-            <View className="w-full h-[18%]  flex items-center">
-              <Text className="text-white font-[SemiBold] text-xl">{name}</Text>
+            <View className="w-[95%] h-[30%]  flex items-center mt-4">
+              <Text className="text-white font-[QuoteMedium] text-2xl">
+                {name}
+              </Text>
+              <Text className="text-gray-200 font-[QuoteRegular] text-xl mt-9 text-justify">
+                {desc}
+              </Text>
             </View>
           </View>
-          <View className="w-full h-[42%] flex items-center">
+          {/* <View className="w-full h-[42%] flex items-center">
             <View className="flex items-start w-[90%] ">
               <ScrollView className="w-full h-full">
-                <Text className="text-white font-medium text-lg mb-8">
+                <Text className="text-gray-200 font-medium text-lg mb-8">
                   {desc}
                 </Text>
 
@@ -97,13 +103,13 @@ export default function ChannelModal({
                 />
               </ScrollView>
             </View>
-          </View>
+          </View> */}
           <View className="w-full h-[10%] flex items-center justify-end">
             <TouchableOpacity
               className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
             >
-              <Text className="text-white font-[Medium] text-[16px]">
+              <Text className="text-white font-[Medium] text-[18px]">
                 Add him/her (Ad)
               </Text>
             </TouchableOpacity>
