@@ -14,6 +14,7 @@ export default function HomeScreen() {
     img: ImageSourcePropType;
   };
   const [FiguresList, setFiguresList] = useState();
+  const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     const fetchMyQuotes = async () => {
@@ -23,7 +24,6 @@ export default function HomeScreen() {
         if (saved) {
           const parsed = JSON.parse(saved);
           setFiguresList(parsed);
-          console.log("🧠 myQuotes from AsyncStorage:", parsed);
         } else {
           console.log("📦 No data found in myQuotes.");
         }
@@ -34,39 +34,6 @@ export default function HomeScreen() {
 
     fetchMyQuotes();
   }, []);
-
-  const quoteData: QuoteItem[] = [
-    {
-      id: "art-dali",
-      name: "Napoleon Bonaparte",
-      content: "Hello my friend, nice to meet you!",
-      img: require("@/assets/images/figures/history-napoleon.png"),
-    },
-    {
-      id: "art-dali",
-      name: "Van Gogh",
-      content: "Don't give up. Life is yours. Grit is all that matters.",
-      img: require("@/assets/images/figures/art-van-gogh.png"),
-    },
-    {
-      id: "art-dali",
-      name: "Apostle-Paul",
-      content: "Imagination is more important than knowledge.",
-      img: require("@/assets/images/figures/religion-apostle-paul.png"),
-    },
-    {
-      id: "art-dali",
-      name: "Marie Curie",
-      content: "Nothing in life is to be feared, it is only to be understood.",
-      img: require("@/assets/images/figures/art-van-gogh.png"),
-    },
-    {
-      id: "art-dali",
-      name: "Leonardo da Vinci",
-      content: "Simplicity is the ultimate sophistication.",
-      img: require("@/assets/images/figures/art-van-gogh.png"),
-    },
-  ];
 
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -91,15 +58,20 @@ export default function HomeScreen() {
               id={item.id}
               onPress={() => {
                 setModalVisible(true);
+                setSelectedId(item.id);
               }}
             />
           )}
-          contentContainerStyle={{ alignItems: "center", paddingBottom: 20 }}
+          contentContainerStyle={{
+            alignItems: "center",
+            paddingBottom: 300, // footer 공간 확보
+          }}
         />
       </View>
 
       <QuoteModal
         modalVisible={modalVisible}
+        id={selectedId}
         onClose={() => {
           setModalVisible(false);
         }}

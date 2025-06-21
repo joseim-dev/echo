@@ -1,5 +1,7 @@
+import { getTodaysQuoteById } from "@/storage/myQuotesStorage";
+import getChannelInfo from "@/utils/getChannelInfo";
 import { Image } from "expo-image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Modal,
@@ -12,13 +14,25 @@ import {
 export default function QuoteModal({
   modalVisible,
   onClose,
+  id,
 }: {
   modalVisible: boolean;
   onClose: () => void;
+  id: string;
 }) {
+  const [quote, setQuote] = useState<string>("");
+  const channelInfo = getChannelInfo({ id });
+
+  useEffect(() => {
+    const fetchQuote = async () => {
+      const entry = await getTodaysQuoteById(id);
+      setQuote(
+        entry?.text ?? "All the quotes have been shown please add on again."
+      );
+    };
+    fetchQuote();
+  }, [id]);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const quote =
-    "You must not fight too often with one enemy, or you will teach him all your art of war.";
 
   const formattedQuote = quote
     .split(". ")
@@ -57,7 +71,7 @@ export default function QuoteModal({
             />
           </View>
         </View>
-        <View className="w-[95%] h-[70%] flex justify-center">
+        <View className="w-[92%] h-[70%] flex justify-center">
           <ScrollView contentContainerClassName="flex-1 justify-center">
             <Animated.Text
               style={{ opacity: fadeAnim }}
@@ -70,7 +84,7 @@ export default function QuoteModal({
               style={{ opacity: fadeAnim }}
               className="text-gray-200 font-[QuoteRegular] text-[18px] mt-10 text-center"
             >
-              - Kanye West -
+              - {channelInfo?.name} -
             </Animated.Text>
           </ScrollView>
         </View>

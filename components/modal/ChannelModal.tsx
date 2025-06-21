@@ -112,7 +112,10 @@ export default function ChannelModal({
             <TouchableOpacity
               className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
-              onPress={() => addFigureToMyQuotes(id)}
+              onPress={() => {
+                addFigureToMyQuotes(id);
+                onClose();
+              }}
             >
               <Text className="text-white font-[Medium] text-[18px]">
                 Add him/her (Ad)

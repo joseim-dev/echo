@@ -1,5 +1,7 @@
+import { getTodaysQuoteById } from "@/storage/myQuotesStorage";
 import getChannelInfo from "@/utils/getChannelInfo";
 import { ImageBackground } from "expo-image";
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export default function QuoteListItem({
@@ -9,12 +11,22 @@ export default function QuoteListItem({
   id: string;
   onPress: () => void;
 }) {
+  const [quote, setQuote] = useState<string | null>(null);
+
   const blurhash = "UMF?@5kDPXt4odaxf,jFObaxnNWCWrjaoya}";
   const channelInfo = getChannelInfo({ id });
 
+  useEffect(() => {
+    const fetchQuote = async () => {
+      const entry = await getTodaysQuoteById(id);
+      setQuote(entry);
+    };
+    fetchQuote();
+  }, [id]);
+
   return (
-    <View className="w-[92%] h-[90px]  flex-row border-b-[1px] border-[#282828]">
-      <View className="w-[22%]  h-full flex justify-center items-start ">
+    <View className="w-[95%] h-[90px] flex-row border-b-[1px] border-[#282828]">
+      <View className="w-[22%] h-full flex justify-center items-start">
         <TouchableOpacity
           activeOpacity={0.75}
           className="h-[64%] aspect-square rounded-full overflow-hidden"
@@ -34,24 +46,24 @@ export default function QuoteListItem({
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        className="w-[78%] flex  h-fit justify-center pl-2"
+        className="w-[78%] flex h-fit justify-center pl-2"
         activeOpacity={0.7}
         onPress={onPress}
       >
         <View className="w-full h-[45%] flex-row items-end">
           <Text className="text-white font-[Medium] text-lg">
-            {channelInfo?.name}{" "}
+            {channelInfo?.name}
           </Text>
           <View className="w-[10px] h-[50%] flex justify-start items-center">
             <View className="w-[7px] h-[5px] rounded-full bg-[#7765EC]" />
           </View>
         </View>
-        <View className="w-full h-[55%] ">
+        <View className="w-full h-[55%]">
           <Text
-            className=" font-[Medium] text-md text-[#606060]"
+            className="font-[Medium] text-md text-[#606060]"
             numberOfLines={2}
           >
-            hello{" "}
+            {quote ?? "No quote for today."}
           </Text>
         </View>
       </TouchableOpacity>

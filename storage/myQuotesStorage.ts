@@ -1,5 +1,7 @@
 import { QuotesData } from "@/constants/Quotes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { Alert } from "react-native";
 
 type QuoteEntry = {
   text: string;
@@ -16,8 +18,13 @@ type QuoteItem = {
 
 type MyQuotes = QuoteItem[];
 
+// 날짜를 로컬 기준 'YYYY-MM-DD' 문자열로 변환
 function formatDate(date: Date): string {
-  return date.toISOString().split("T")[0];
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 function getDateAfterDays(baseDate: Date, days: number): string {
@@ -26,13 +33,17 @@ function getDateAfterDays(baseDate: Date, days: number): string {
   return formatDate(newDate);
 }
 
+const router = useRouter();
+
 export async function addFigureToMyQuotes(id: string): Promise<void> {
   try {
     const saved = await AsyncStorage.getItem("myQuotes");
     const myQuotes: MyQuotes = saved ? JSON.parse(saved) : [];
 
     if (myQuotes.find((item) => item.id === id)) {
-      console.warn(`Figure with ID "${id}" is already added.`);
+      console.log(`Figure with ID "${id}" is already added.`);
+      Alert.alert("This channel is already added.");
+
       return;
     }
 
@@ -60,35 +71,37 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
 
     await AsyncStorage.setItem("myQuotes", JSON.stringify(myQuotes));
     console.log(`✅ Figure "${id}" added successfully.`);
+    Alert.alert("Added Successfully!");
+    router.replace("/(tabs)");
   } catch (error) {
     console.error("❌ Error saving myQuotes:", error);
   }
 }
 
-export async function getTodaysQuotes(targetDateStr?: string): Promise<{
-  [id: string]: QuoteEntry;
-}> {
+// 특정 ID에 해당하는 인물의 오늘 명언 반환
+export async function getTodaysQuoteById(
+  id: string
+): Promise<QuoteEntry | null> {
   try {
     const saved = await AsyncStorage.getItem("myQuotes");
-    if (!saved) return {};
+    if (!saved) return null;
 
     const myQuotes: MyQuotes = JSON.parse(saved);
-    const targetDate = targetDateStr ? new Date(targetDateStr) : new Date();
-    const dateStr = formatDate(targetDate);
 
-    const result: { [id: string]: QuoteEntry } = {};
+    const today = new Date();
+    const dateStr = formatDate(today);
 
-    for (const item of myQuotes) {
-      const entry = item.quotesByDate[dateStr];
-      if (entry) {
-        result[item.id] = entry;
-      }
+    const targetItem = myQuotes.find((item) => item.id === id);
+
+    if (targetItem) {
+      const entry = targetItem.quotesByDate[dateStr];
+      return entry ?? null;
     }
 
-    return result;
+    return null;
   } catch (error) {
-    console.error("❌ Error loading quotes:", error);
-    return {};
+    console.error("❌ Error loading quote by id:", error);
+    return null;
   }
 }
 
