@@ -1,14 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageSourcePropType,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import StatBar from "../ui/StatBar";
 // @ts-ignore
 // import ProgressBar from "react-native-animated-progress";
 
 export default function ChannelModal({
+  name,
+  imgUrl,
+  desc,
   modalVisible,
   onClose,
 }: {
+  name: string;
+  desc: string;
+  imgUrl: ImageSourcePropType;
   modalVisible: boolean;
   onClose: () => void;
 }) {
@@ -22,7 +35,7 @@ export default function ChannelModal({
       {/* 전체 배경 (투명한 오버레이) */}
       <View className="w-full h-full bg-[#101010] bg-opacity-80 justify-center items-center">
         {/* 모달 내용 (작은 박스) */}
-        <View className="w-[90%] h-[80%] p-3 bg-black rounded-xl border-2 border-[#373737]">
+        <View className="w-full h-[90%] p-3 bg-[#101010] rounded-xl">
           <View className="w-full h-[5%]  flex items-end justify-center">
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close" color={"#ffffff"} size={28} />
@@ -39,24 +52,21 @@ export default function ChannelModal({
                     overflow: "hidden", // 테두리 밖 이미지 잘림 방지
                     transform: [{ scale: 1.05 }],
                   }}
-                  source={require("@/assets/images/figures/music-kanye.png")}
+                  source={imgUrl}
                   contentFit="cover" // 또는 "contain" 필요에 따라 변경
                   transition={1000}
                 />
               </View>
             </View>
             <View className="w-full h-[18%]  flex items-center">
-              <Text className="text-white font-[SemiBold] text-xl">
-                Kanye West
-              </Text>
+              <Text className="text-white font-[SemiBold] text-xl">{name}</Text>
             </View>
           </View>
           <View className="w-full h-[42%] flex items-center">
             <View className="flex items-start w-[90%] ">
               <ScrollView className="w-full h-full">
-                <Text className="text-white font-medium text-lg">
-                  Kanye West is a pioneering rapper and producer known for his
-                  influential music and controversial public image.{"\n"}
+                <Text className="text-white font-medium text-lg mb-8">
+                  {desc}
                 </Text>
 
                 <StatBar

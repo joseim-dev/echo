@@ -5,7 +5,7 @@ import StoreFigureCard from "@/components/page/store/StoreFigureCard";
 import PageTitle from "@/components/title/PageTitle";
 import { FiguresInfo } from "@/constants/Figures";
 import React, { useEffect, useMemo, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, ImageSourcePropType, View } from "react-native";
 
 const mockFigures = FiguresInfo;
 
@@ -13,6 +13,11 @@ export default function TabTwoScreen() {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState("");
+  const [imgUrl, setImgUrl] = useState<ImageSourcePropType>(
+    require("@/assets/images/icon.png")
+  ); // Initialize with undefined or null
+  const [desc, setDesc] = useState("");
 
   useEffect(() => {
     console.log("Selected Category", selectedCategory);
@@ -67,6 +72,9 @@ export default function TabTwoScreen() {
               imgUrl={item.imgUrl}
               onPress={() => {
                 setModalVisible(true);
+                setDesc(item.desc);
+                setImgUrl(item.imgUrl);
+                setName(item.name);
               }}
             />
           )}
@@ -79,6 +87,9 @@ export default function TabTwoScreen() {
         onClose={() => {
           setModalVisible(false);
         }}
+        name={name}
+        imgUrl={imgUrl}
+        desc={desc}
       />
     </View>
   );
