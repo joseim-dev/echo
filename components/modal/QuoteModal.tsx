@@ -17,6 +17,15 @@ export default function QuoteModal({
   onClose: () => void;
 }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const quote =
+    "You must not fight too often with one enemy, or you will teach him all your art of war.";
+
+  const formattedQuote = quote
+    .split(". ")
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 0)
+    .map((sentence) => (sentence.endsWith(".") ? sentence : sentence + "."))
+    .join("\n\n");
 
   useEffect(() => {
     if (modalVisible) {
@@ -48,14 +57,13 @@ export default function QuoteModal({
             />
           </View>
         </View>
-        <View className="w-[90%] h-[70%] flex justify-center">
+        <View className="w-[95%] h-[70%] flex justify-center">
           <ScrollView contentContainerClassName="flex-1 justify-center">
             <Animated.Text
               style={{ opacity: fadeAnim }}
-              className="text-gray-200 font-[QuoteMedium] text-[24px] text-center"
+              className="text-gray-200 font-[QuoteMedium] text-[23px] text-start leading-[34px]"
             >
-              Believe in yourself! {"\n"}
-              {"\n"}Have faith in your abilities!
+              {formattedQuote}
             </Animated.Text>
 
             <Animated.Text
