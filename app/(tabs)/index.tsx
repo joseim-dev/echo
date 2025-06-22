@@ -77,8 +77,8 @@ export default function HomeScreen() {
                 </Text>
 
                 <Text className="text-[#999] text-sm text-center leading-5">
-                  Go to the store page {"\n"}
-                  to add a channel!
+                  Start by adding a channel{"\n"}
+                  in the store page.
                 </Text>
               </View>
             </ScrollView>
