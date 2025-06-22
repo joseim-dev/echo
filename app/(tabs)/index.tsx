@@ -34,7 +34,8 @@ export default function HomeScreen() {
 
           if (saved) {
             const parsed = JSON.parse(saved);
-            setFiguresList(parsed);
+            const reversed = parsed.reverse(); // 배열 순서 뒤집기
+            setFiguresList(reversed);
             console.log(FiguresList);
           } else {
             console.log("📦 No data found in myQuotes.");
