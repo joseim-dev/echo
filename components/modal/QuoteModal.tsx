@@ -1,4 +1,4 @@
-import { getTodaysQuoteById } from "@/storage/myQuotesStorage";
+import { getTodaysQuoteById, markQuoteAsRead } from "@/storage/myQuotesStorage";
 import getChannelInfo from "@/utils/getChannelInfo";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +31,7 @@ export default function QuoteModal({
       );
     };
     fetchQuote();
+    markQuoteAsRead(id);
   }, [id]);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 

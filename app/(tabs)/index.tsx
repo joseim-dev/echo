@@ -3,8 +3,16 @@ import QuoteModal from "@/components/modal/QuoteModal";
 import QuoteListItem from "@/components/page/home/QuoteListItem";
 import PageTitle from "@/components/title/PageTitle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import { FlatList, ImageSourcePropType, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { Image } from "expo-image";
+import { useCallback, useState } from "react";
+import {
+  FlatList,
+  ImageSourcePropType,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
   type QuoteItem = {
@@ -13,29 +21,33 @@ export default function HomeScreen() {
     content: string;
     img: ImageSourcePropType;
   };
-  const [FiguresList, setFiguresList] = useState();
+  const [FiguresList, setFiguresList] = useState<QuoteItem[]>([]);
   const [selectedId, setSelectedId] = useState("");
-
-  useEffect(() => {
-    const fetchMyQuotes = async () => {
-      try {
-        const saved = await AsyncStorage.getItem("myQuotes");
-
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          setFiguresList(parsed);
-        } else {
-          console.log("📦 No data found in myQuotes.");
-        }
-      } catch (error) {
-        console.error("❌ Error loading myQuotes:", error);
-      }
-    };
-
-    fetchMyQuotes();
-  }, []);
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [update, setUpdate] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchMyQuotes = async () => {
+        try {
+          const saved = await AsyncStorage.getItem("myQuotes");
+
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            setFiguresList(parsed);
+            console.log(FiguresList);
+          } else {
+            console.log("📦 No data found in myQuotes.");
+          }
+        } catch (error) {
+          console.error("❌ Error loading myQuotes:", error);
+        }
+      };
+
+      fetchMyQuotes();
+    }, [update]) // update 값이 바뀌거나 화면이 포커스될 때 실행됨
+  );
+
   return (
     <View className="w-full h-full  bg-black  flex justify-start items-center">
       {/* Header */}
@@ -49,24 +61,50 @@ export default function HomeScreen() {
       </View>
 
       {/* Content */}
-      <View className="w-full h-full pt-1 flex items-center">
-        <FlatList
-          data={FiguresList}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <QuoteListItem
-              id={item.id}
-              onPress={() => {
-                setModalVisible(true);
-                setSelectedId(item.id);
-              }}
-            />
-          )}
-          contentContainerStyle={{
-            alignItems: "center",
-            paddingBottom: 300, // footer 공간 확보
-          }}
-        />
+      <View className="w-full h-[78%] pt-1 flex items-center">
+        {FiguresList.length === 0 ? (
+          // 명언이 하나도 없을 때
+          <View className="w-full h-full flex justify-start items-center px-6 ">
+            <ScrollView>
+              <View className="flex items-center pt-[50px]">
+                <Image
+                  source={require("@/assets/images/icon.png")}
+                  style={{ width: 140, height: 90 }}
+                />
+
+                <Text className="text-white text-xl font-semibold mt-4 mb-2">
+                  No Channel added yet
+                </Text>
+
+                <Text className="text-[#999] text-sm text-center leading-5">
+                  Go to the store page {"\n"}
+                  to add a channel!
+                </Text>
+              </View>
+            </ScrollView>
+          </View>
+        ) : (
+          // 명언 목록 있을 때
+          <FlatList
+            data={FiguresList}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <QuoteListItem
+                id={item.id}
+                modalVisible={modalVisible}
+                onPress={() => {
+                  setModalVisible(true);
+                  setSelectedId(item.id);
+                }}
+                update={() => setUpdate((prev) => prev + 1)}
+              />
+            )}
+            contentContainerStyle={{
+              alignItems: "center",
+              paddingBottom: 300,
+            }}
+          />
+        )}
       </View>
 
       <QuoteModal

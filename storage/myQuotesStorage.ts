@@ -55,10 +55,10 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
     }
 
     const quotesByDate: { [date: string]: QuoteEntry } = {};
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 0; i <= 30; i++) {
       const dateKey = getDateAfterDays(today, i);
       quotesByDate[dateKey] = {
-        text: quotes[i - 1],
+        text: quotes[i],
         read: false,
       };
     }
@@ -104,10 +104,9 @@ export async function getTodaysQuoteById(
     return null;
   }
 }
-
 export async function markQuoteAsRead(
   id: string,
-  dateStr: string
+  dateStr?: string
 ): Promise<void> {
   try {
     const saved = await AsyncStorage.getItem("myQuotes");
@@ -115,12 +114,78 @@ export async function markQuoteAsRead(
 
     const myQuotes: MyQuotes = JSON.parse(saved);
     const target = myQuotes.find((item) => item.id === id);
-    if (target && target.quotesByDate[dateStr]) {
-      target.quotesByDate[dateStr].read = true;
+    if (!target) return;
+
+    const today = dateStr ?? formatDate(new Date()); // ✅ 수정 완료
+
+    if (target.quotesByDate[today]) {
+      target.quotesByDate[today].read = true;
       await AsyncStorage.setItem("myQuotes", JSON.stringify(myQuotes));
-      console.log(`✅ Marked as read: ${id} - ${dateStr}`);
+      console.log(`✅ Marked as read: ${id} - ${today}`);
+    } else {
+      console.warn(`⚠️ No quote entry found for: ${id} - ${today}`);
     }
   } catch (error) {
     console.error("❌ Error updating read status:", error);
   }
+}
+
+export async function isTodaysQuoteRead(id: string): Promise<boolean> {
+  try {
+    const saved = await AsyncStorage.getItem("myQuotes");
+    if (!saved) return false;
+
+    const myQuotes: MyQuotes = JSON.parse(saved);
+    const today = formatDate(new Date());
+
+    const target = myQuotes.find((item) => item.id === id);
+    if (!target) return false;
+
+    const todayEntry = target.quotesByDate[today];
+    return todayEntry?.read === true;
+  } catch (error) {
+    console.error("❌ Error checking read status:", error);
+    return false;
+  }
+}
+
+export async function removeFigureFromMyQuotes(
+  id: string,
+  onSuccess?: () => void
+): Promise<void> {
+  Alert.alert(
+    "Confirm Deletion",
+    "Are you sure you want to remove this channel?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Remove",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            const saved = await AsyncStorage.getItem("myQuotes");
+            if (!saved) return;
+
+            const myQuotes: MyQuotes = JSON.parse(saved);
+            const updatedQuotes = myQuotes.filter((item) => item.id !== id);
+
+            await AsyncStorage.setItem(
+              "myQuotes",
+              JSON.stringify(updatedQuotes)
+            );
+            console.log(`🗑️ Removed figure with ID "${id}" from storage.`);
+            Alert.alert("Removed Successfully!");
+
+            if (onSuccess) onSuccess(); // ✅ 삭제 후 콜백 실행
+          } catch (error) {
+            console.error("❌ Error removing figure from myQuotes:", error);
+          }
+        },
+      },
+    ],
+    { cancelable: true }
+  );
 }
