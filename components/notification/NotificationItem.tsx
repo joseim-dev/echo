@@ -1,6 +1,6 @@
 import useLocalNotifications from "@/hooks/useLocalNotifications";
 import React from "react";
-import { Pressable } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 
 // Props 타입 정의
 interface NotificationItemProps {
@@ -33,7 +33,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         setRead(true);
       }}
     >
-      {/* <View
+      <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
@@ -65,10 +65,17 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         </View>
 
         <View style={{ height: 35, width: "60%" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 14, marginBottom: 1 }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 14,
+              marginBottom: 1,
+              color: "white",
+            }}
+          >
             {title}
           </Text>
-          <Text style={{ fontSize: 12 }}>{body}</Text>
+          <Text style={{ fontSize: 12, color: "white" }}>{body}</Text>
         </View>
 
         <View
@@ -85,7 +92,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             {month}/{day}/{hour}:{minute}
           </Text>
         </View>
-      </View> */}
+      </View>
     </Pressable>
   );
 };

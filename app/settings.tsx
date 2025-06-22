@@ -26,8 +26,8 @@ export default function SettingsScreen() {
 
   const handleAddNotification = async () => {
     await triggerDailyNotification(
-      "title",
-      "Check today's quote!",
+      "Check your daily motivation",
+      "Don't miss a thing!",
       time.getHours(),
       time.getMinutes()
     );
