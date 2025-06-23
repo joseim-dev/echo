@@ -104,6 +104,7 @@ export default function HomeScreen() {
               alignItems: "center",
               paddingBottom: 200,
             }}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>

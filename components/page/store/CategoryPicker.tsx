@@ -22,7 +22,11 @@ export default function CategoryPicker({
 
   return (
     <View className="w-full h-full">
-      <ScrollView className="w-full h-full" horizontal={true}>
+      <ScrollView
+        className="w-full h-full"
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
         {Object.entries(category).map(([key, item]) => {
           const isSelected = selectedCategory === key;
           return (
