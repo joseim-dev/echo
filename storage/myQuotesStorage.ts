@@ -11,6 +11,7 @@ type QuoteEntry = {
 type QuoteItem = {
   id: string;
   startDate: string;
+  number: number; // ✅ 추가됨
   quotesByDate: {
     [date: string]: QuoteEntry;
   };
@@ -18,12 +19,10 @@ type QuoteItem = {
 
 type MyQuotes = QuoteItem[];
 
-// 날짜를 로컬 기준 'YYYY-MM-DD' 문자열로 변환
 function formatDate(date: Date): string {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");
-
   return `${year}-${month}-${day}`;
 }
 
@@ -43,7 +42,6 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
     if (myQuotes.find((item) => item.id === id)) {
       console.log(`Figure with ID "${id}" is already added.`);
       Alert.alert("This channel is already added.");
-
       return;
     }
 
@@ -63,9 +61,12 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
       };
     }
 
+    const nextNumber = myQuotes.length + 1;
+
     myQuotes.push({
       id,
       startDate: formatDate(today),
+      number: nextNumber, // ✅ 순서 지정
       quotesByDate,
     });
 
@@ -78,7 +79,6 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
   }
 }
 
-// 특정 ID에 해당하는 인물의 오늘 명언 반환
 export async function getTodaysQuoteById(
   id: string
 ): Promise<QuoteEntry | null> {
@@ -104,6 +104,7 @@ export async function getTodaysQuoteById(
     return null;
   }
 }
+
 export async function markQuoteAsRead(
   id: string,
   dateStr?: string
@@ -116,7 +117,7 @@ export async function markQuoteAsRead(
     const target = myQuotes.find((item) => item.id === id);
     if (!target) return;
 
-    const today = dateStr ?? formatDate(new Date()); // ✅ 수정 완료
+    const today = dateStr ?? formatDate(new Date());
 
     if (target.quotesByDate[today]) {
       target.quotesByDate[today].read = true;
@@ -170,7 +171,16 @@ export async function removeFigureFromMyQuotes(
             if (!saved) return;
 
             const myQuotes: MyQuotes = JSON.parse(saved);
-            const updatedQuotes = myQuotes.filter((item) => item.id !== id);
+
+            const removedIndex = myQuotes.findIndex((item) => item.id === id);
+            if (removedIndex === -1) return;
+
+            const updatedQuotes = myQuotes
+              .filter((item) => item.id !== id)
+              .map((item, index) => ({
+                ...item,
+                number: index + 1, // ✅ 번호 재정렬
+              }));
 
             await AsyncStorage.setItem(
               "myQuotes",
@@ -179,7 +189,7 @@ export async function removeFigureFromMyQuotes(
             console.log(`🗑️ Removed figure with ID "${id}" from storage.`);
             Alert.alert("Removed Successfully!");
 
-            if (onSuccess) onSuccess(); // ✅ 삭제 후 콜백 실행
+            if (onSuccess) onSuccess();
           } catch (error) {
             console.error("❌ Error removing figure from myQuotes:", error);
           }

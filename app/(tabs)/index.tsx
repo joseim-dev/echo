@@ -102,7 +102,7 @@ export default function HomeScreen() {
             )}
             contentContainerStyle={{
               alignItems: "center",
-              paddingBottom: 300,
+              paddingBottom: 200,
             }}
           />
         )}
