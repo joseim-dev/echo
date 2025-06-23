@@ -10,7 +10,9 @@ import {
 // @ts-ignore
 // import ProgressBar from "react-native-animated-progress";
 
+import { useAd } from "@/contexts/AdContext/AdContext";
 import { addFigureToMyQuotes } from "@/storage/myQuotesStorage";
+import { useEffect } from "react";
 
 export default function ChannelModal({
   name,
@@ -27,6 +29,25 @@ export default function ChannelModal({
   id: string;
   onClose: () => void;
 }) {
+  const { isAdLoaded, showAd, adError, isAdClosed, loadAd } = useAd();
+
+  const handlePress = () => {
+    if (isAdLoaded) {
+      showAd();
+    } else {
+      loadAd;
+      addFigureToMyQuotes(id);
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    if (isAdClosed) {
+      loadAd;
+      addFigureToMyQuotes(id);
+      onClose();
+    }
+  }, [isAdClosed]);
   return (
     <Modal
       animationType="fade"
@@ -112,10 +133,7 @@ export default function ChannelModal({
             <TouchableOpacity
               className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
-              onPress={() => {
-                addFigureToMyQuotes(id);
-                onClose();
-              }}
+              onPress={handlePress}
             >
               <Text className="text-white font-[Medium] text-[18px]">
                 Add him/her (Ad)

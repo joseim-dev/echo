@@ -72,7 +72,6 @@ export async function addFigureToMyQuotes(id: string): Promise<void> {
 
     await AsyncStorage.setItem("myQuotes", JSON.stringify(myQuotes));
     console.log(`✅ Figure "${id}" added successfully.`);
-    Alert.alert("Added Successfully!");
     router.replace("/(tabs)");
   } catch (error) {
     console.error("❌ Error saving myQuotes:", error);
