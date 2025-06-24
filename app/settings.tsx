@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import {
   Modal,
@@ -23,6 +24,36 @@ export default function SettingsScreen() {
 
   const { triggerDailyNotification, cancelScheduledNotificationById } =
     useLocalNotifications();
+  const handleRequestPermission = async () => {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+
+    if (existingStatus !== "granted") {
+      const { status: newStatus } =
+        await Notifications.requestPermissionsAsync();
+
+      if (newStatus === "granted") {
+        // ✅ 처음 허용한 경우 → 9시, 22시 알림 등록
+        await triggerDailyNotification(
+          "You're motivators are waiting.",
+          "Start your day with motivation",
+          9,
+          0
+        );
+        await triggerDailyNotification(
+          "You're motivators are waiting.",
+          "Finish your day with motivation",
+          22,
+          0
+        );
+        setRefreshKey((prev) => prev + 1); // 목록 갱신
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleRequestPermission();
+  }, []);
 
   const handleAddNotification = async () => {
     await triggerDailyNotification(

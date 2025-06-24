@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// @ts-ignore
-// import ProgressBar from "react-native-animated-progress";
 
 import { useAd } from "@/contexts/AdContext/AdContext";
+import useLocalNotifications from "@/hooks/useLocalNotifications";
 import { addFigureToMyQuotes } from "@/storage/myQuotesStorage";
+import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
+import { Alert, Linking, Platform } from "react-native";
 
 export default function ChannelModal({
   name,
@@ -30,14 +31,73 @@ export default function ChannelModal({
   onClose: () => void;
 }) {
   const { isAdLoaded, showAd, adError, isAdClosed, loadAd } = useAd();
+  const { triggerDailyNotification } = useLocalNotifications();
 
-  const handlePress = () => {
-    if (isAdLoaded) {
-      showAd();
+  const handlePress = async () => {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+
+    if (existingStatus !== "granted") {
+      const { status: newStatus } =
+        await Notifications.requestPermissionsAsync();
+
+      if (newStatus === "granted") {
+        // ✅ 알림을 이번에 처음으로 허용한 경우에만 실행할 로직
+        console.log("🎉 알림 처음 허용 → 로직 실행");
+        triggerDailyNotification(
+          "You're motivators are waiting.",
+          "Start your day with motivation",
+          9,
+          0
+        );
+        triggerDailyNotification(
+          "You're motivators are waiting.",
+          "Finish your day with motivation",
+          22,
+          0
+        );
+
+        if (isAdLoaded) {
+          showAd();
+        } else {
+          loadAd();
+          addFigureToMyQuotes(id);
+          onClose();
+        }
+      } else {
+        // ❌ 거부된 경우: 알림 권한 필요 Alert
+        Alert.alert(
+          "Notification Permission Needed",
+          "To add this channel, please allow notifications in your settings.",
+
+          [
+            {
+              text: "Go to Settings",
+              onPress: () => {
+                if (Platform.OS === "ios") {
+                  Linking.openURL("app-settings:");
+                } else {
+                  Linking.openSettings();
+                }
+              },
+            },
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+          ]
+        );
+      }
     } else {
-      loadAd;
-      addFigureToMyQuotes(id);
-      onClose();
+      // 🔕 이미 허용된 상태라면 아무 동작도 하지 않음
+      console.log("알림 이미 허용됨 → 로직 실행 안 함");
+      if (isAdLoaded) {
+        showAd();
+      } else {
+        loadAd();
+        addFigureToMyQuotes(id);
+        onClose();
+      }
     }
   };
 

@@ -6,10 +6,8 @@ import { useEffect } from "react";
 const useLocalNotifications = () => {
   const router = useRouter();
 
-  // 알림 권한 요청 및 알림 핸들러 설정
+  // 알림 알림 핸들러 설정
   useEffect(() => {
-    requestPermissions();
-
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
