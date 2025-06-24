@@ -27,7 +27,9 @@ export default function QuoteModal({
     const fetchQuote = async () => {
       const entry = await getTodaysQuoteById(id);
       setQuote(
-        entry?.text ?? "All the quotes have been shown please add on again."
+        entry?.text ??
+          `You've seen all quotes from ${channelInfo?.name}. Discover more motivators on the store page.
+`
       );
     };
     fetchQuote();
