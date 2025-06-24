@@ -1,6 +1,7 @@
 import * as Notifications from "expo-notifications";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
+import { Platform } from "react-native";
 
 // 알림을 설정하고 관리하는 커스텀 훅
 const useLocalNotifications = () => {
@@ -12,11 +13,21 @@ const useLocalNotifications = () => {
       handleNotification: async () => ({
         shouldShowAlert: true,
         shouldPlaySound: true,
-        shouldSetBadge: false,
+        shouldSetBadge: true,
         shouldShowBanner: true, // Add this line
         shouldShowList: true, // Add this line
       }),
     });
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "Default Channel",
+        importance: Notifications.AndroidImportance.HIGH,
+        sound: "default", // 또는 알림 사운드 파일 이름 (등록 필요)
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
   }, []);
 
   // 알림 권한 요청 함수
@@ -48,7 +59,7 @@ const useLocalNotifications = () => {
           title,
           body,
           badge: 1, // 뱃지 숫자 설정
-          sound: "notification_sound_1.wav",
+          sound: "default",
         },
         trigger: null,
       });
@@ -75,7 +86,7 @@ const useLocalNotifications = () => {
           body,
           badge: 1, // 뱃지 숫자 설정
           data: { notificationType: "Daily" }, // 알림에 추가 데이터 전달
-          sound: "notification_sound_1.wav",
+          sound: "default",
         },
         trigger: {
           channelId: "default", // Add a channelId, highly recommended for Android

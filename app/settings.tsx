@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from "@react-native-community/datetimepicker";
 import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import {
@@ -17,13 +19,14 @@ import useLocalNotifications from "@/hooks/useLocalNotifications";
 import { getScheduleNotifications } from "@/utils/getScheduledNotifications";
 
 export default function SettingsScreen() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [time, setTime] = useState(new Date());
   const [notifications, setNotifications] = useState<any[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const { triggerDailyNotification, cancelScheduledNotificationById } =
     useLocalNotifications();
+
   const handleRequestPermission = async () => {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -33,7 +36,6 @@ export default function SettingsScreen() {
         await Notifications.requestPermissionsAsync();
 
       if (newStatus === "granted") {
-        // ✅ 처음 허용한 경우 → 9시, 22시 알림 등록
         await triggerDailyNotification(
           "You're motivators are waiting.",
           "Start your day with motivation",
@@ -46,7 +48,7 @@ export default function SettingsScreen() {
           22,
           0
         );
-        setRefreshKey((prev) => prev + 1); // 목록 갱신
+        setRefreshKey((prev) => prev + 1);
       }
     }
   };
@@ -54,6 +56,38 @@ export default function SettingsScreen() {
   useEffect(() => {
     handleRequestPermission();
   }, []);
+
+  // 안드로이드용 imperative API 사용
+  const openAndroidTimePicker = () => {
+    DateTimePickerAndroid.open({
+      value: time,
+      mode: "time",
+      is24Hour: true,
+      onChange: (event, selectedDate) => {
+        console.log("Android picker event:", event);
+        console.log("Selected date:", selectedDate);
+
+        if (event.type === "set" && selectedDate) {
+          console.log(
+            "Setting notification for:",
+            selectedDate.getHours(),
+            selectedDate.getMinutes()
+          );
+
+          setTime(selectedDate);
+
+          triggerDailyNotification(
+            "Check your daily motivation",
+            "Don't miss a thing!",
+            selectedDate.getHours(),
+            selectedDate.getMinutes()
+          );
+
+          setRefreshKey((prev) => prev + 1);
+        }
+      },
+    });
+  };
 
   const handleAddNotification = async () => {
     await triggerDailyNotification(
@@ -75,6 +109,7 @@ export default function SettingsScreen() {
     const loadNotifications = async () => {
       const scheduled = await getScheduleNotifications();
       setNotifications(scheduled);
+      console.log("알림 예약", scheduled);
     };
     loadNotifications();
   }, [refreshKey]);
@@ -96,7 +131,15 @@ export default function SettingsScreen() {
         <Text className="text-[#b9b9b9] text-[26px] font-[regular]">
           Notifications
         </Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <TouchableOpacity
+          onPress={() => {
+            if (Platform.OS === "android") {
+              openAndroidTimePicker(); // imperative API 사용
+            } else {
+              setModalVisible(true);
+            }
+          }}
+        >
           <Ionicons name="add-circle-outline" size={24} color={"#ffffff"} />
         </TouchableOpacity>
       </View>
@@ -108,68 +151,73 @@ export default function SettingsScreen() {
             No scheduled notifications.
           </Text>
         )}
-        <View className="w-full h-full ">
-          <ScrollView>
-            {notifications.map((item) => {
-              const id = item.identifier;
-              const hour = item.trigger.dateComponents.hour ?? 0;
-              const minute = item.trigger.dateComponents.minute ?? 0;
-              const formatted = `${String(hour).padStart(2, "0")}:${String(
-                minute
-              ).padStart(2, "0")}`;
+        <ScrollView>
+          {notifications.map((item) => {
+            const id = item.identifier;
 
-              return (
-                <View
-                  key={id}
-                  className="w-full flex-row items-center justify-between bg-[#1c1c1c] rounded-xl px-3 py-4 mb-3"
-                >
-                  <Text className="text-white text-[30px]">{formatted}</Text>
-                  <TouchableOpacity onPress={() => handleDelete(id)}>
-                    <Ionicons name="trash-outline" size={22} color="white" />
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </ScrollView>
-        </View>
+            // ✅ 안드로이드는 dateComponents 없음
+            const hour =
+              item.trigger?.dateComponents?.hour ?? item.trigger?.hour ?? 0;
+            const minute =
+              item.trigger?.dateComponents?.minute ?? item.trigger?.minute ?? 0;
+
+            const formatted = `${String(hour).padStart(2, "0")}:${String(
+              minute
+            ).padStart(2, "0")}`;
+
+            return (
+              <View
+                key={id}
+                className="w-full flex-row items-center justify-between bg-[#1c1c1c] rounded-xl px-3 py-4 mb-3"
+              >
+                <Text className="text-white text-[30px]">{formatted}</Text>
+                <TouchableOpacity onPress={() => handleDelete(id)}>
+                  <Ionicons name="trash-outline" size={22} color="white" />
+                </TouchableOpacity>
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
 
-      {/* Notification modal */}
-      <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View className="flex-1 justify-center items-center bg-black/80 px-5">
-          <View className="w-full bg-[#1e1e1e] rounded-xl p-5">
-            <Text className="text-white mb-2 text-xl font-[Medium]">
-              Set a time
-            </Text>
+      {/* iOS용 모달 + DateTimePicker */}
+      {Platform.OS === "ios" && (
+        <Modal animationType="fade" transparent={true} visible={modalVisible}>
+          <View className="flex-1 justify-center items-center bg-black/80 px-5">
+            <View className="w-full bg-[#1e1e1e] rounded-xl p-5">
+              <Text className="text-white mb-2 text-xl font-[Medium]">
+                Set a time
+              </Text>
 
-            <DateTimePicker
-              value={time}
-              mode="time"
-              is24Hour={true}
-              display={Platform.OS === "ios" ? "spinner" : "default"}
-              onChange={(event, selectedDate) => {
-                if (selectedDate) setTime(selectedDate);
-              }}
-              textColor="white"
-            />
+              <DateTimePicker
+                value={time}
+                mode="time"
+                is24Hour={true}
+                display="spinner"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) setTime(selectedDate);
+                }}
+                textColor="white"
+              />
 
-            <View className="flex-row justify-between mt-5">
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}
-                className="bg-gray-600 rounded-md px-6 py-3"
-              >
-                <Text className="text-white">Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleAddNotification}
-                className="bg-[#7765EC] rounded-md px-6 py-3"
-              >
-                <Text className="text-white">Save</Text>
-              </TouchableOpacity>
+              <View className="flex-row justify-between mt-5">
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  className="bg-gray-600 rounded-md px-6 py-3"
+                >
+                  <Text className="text-white">Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleAddNotification}
+                  className="bg-[#7765EC] rounded-md px-6 py-3"
+                >
+                  <Text className="text-white">Save</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </View>
   );
 }
