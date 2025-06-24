@@ -121,7 +121,7 @@ export default function SettingsScreen() {
               return (
                 <View
                   key={id}
-                  className="w-full flex-row items-center justify-between bg-[#1c1c1c] rounded-xl px-3 py-4"
+                  className="w-full flex-row items-center justify-between bg-[#1c1c1c] rounded-xl px-3 py-4 mb-3"
                 >
                   <Text className="text-white text-[30px]">{formatted}</Text>
                   <TouchableOpacity onPress={() => handleDelete(id)}>
