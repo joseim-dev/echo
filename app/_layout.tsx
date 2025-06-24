@@ -16,6 +16,13 @@ import { useEffect } from "react";
 import mobileAds from "react-native-google-mobile-ads";
 
 export default function RootLayout() {
+  useEffect(() => {
+    mobileAds()
+      .initialize()
+      .then(() => {
+        console.log("AdMob 초기화 완료");
+      });
+  }, []);
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     Thin: require("../assets/fonts/Montserrat-Thin.ttf"),
@@ -35,13 +42,6 @@ export default function RootLayout() {
     // Async font loading only occurs in development.
     return null;
   }
-  useEffect(() => {
-    mobileAds()
-      .initialize()
-      .then(() => {
-        console.log("AdMob 초기화 완료");
-      });
-  }, []);
 
   return (
     <AdProvider>

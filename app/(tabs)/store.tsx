@@ -4,6 +4,7 @@ import CategoryPicker from "@/components/page/store/CategoryPicker";
 import StoreFigureCard from "@/components/page/store/StoreFigureCard";
 import PageTitle from "@/components/title/PageTitle";
 import { FiguresInfo } from "@/constants/Figures";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, ImageSourcePropType, View } from "react-native";
 
@@ -77,6 +78,7 @@ export default function TabTwoScreen() {
                 setImgUrl(item.imgUrl);
                 setName(item.name);
                 setId(item.id);
+                requestTrackingPermissionsAsync();
               }}
             />
           )}
