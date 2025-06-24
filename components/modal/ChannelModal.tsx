@@ -191,12 +191,12 @@ export default function ChannelModal({
           </View> */}
           <View className="w-full h-[10%] flex items-center justify-end">
             <TouchableOpacity
-              className="w-[82%] bg-[#7765EC] h-[44px] rounded-full  mb-[2%] flex justify-center items-center"
+              className="w-[82%] bg-[#7765EC] h-[49px] rounded-full  mb-[2%] flex justify-center items-center"
               activeOpacity={0.8}
               onPress={handlePress}
             >
-              <Text className="text-white font-[Medium] text-[18px]">
-                Add him/her (Ad)
+              <Text className="text-white font-[SemiBold] text-[18px]">
+                Add Channel (Ad)
               </Text>
             </TouchableOpacity>
           </View>
