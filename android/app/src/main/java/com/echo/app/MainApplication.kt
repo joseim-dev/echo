@@ -1,4 +1,4 @@
-package com.echo.motivation
+package com.echo.app
 
 import android.app.Application
 import android.content.res.Configuration

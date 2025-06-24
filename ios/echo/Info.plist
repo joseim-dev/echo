@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>echo</string>
-          <string>com.echo.motivation</string>
+          <string>com.echo.app</string>
         </array>
       </dict>
     </array>

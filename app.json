@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.echo.motivation",
+      "bundleIdentifier": "com.echo.app",
       "infoPlist": {
         "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
         "ITSAppUsesNonExemptEncryption": false
@@ -20,10 +20,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff",
-        "package": "com.echo.motivation"
+        "package": "com.echo.app"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.echo.motivation"
+      "package": "com.echo.app"
     },
     "web": {
       "bundler": "metro",
