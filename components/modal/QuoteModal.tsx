@@ -4,8 +4,9 @@ import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
+  Dimensions,
+  FlatList,
   Modal,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -22,6 +23,7 @@ export default function QuoteModal({
 }) {
   const [quote, setQuote] = useState<string>("");
   const channelInfo = getChannelInfo({ id });
+  const screenHeight = Dimensions.get("window").height;
 
   useEffect(() => {
     const fetchQuote = async () => {
@@ -78,21 +80,26 @@ export default function QuoteModal({
           </Text>
         </View>
         <View className="w-[92%] h-[68%] flex justify-center">
-          <ScrollView contentContainerClassName="flex-1 justify-center">
-            <Animated.Text
-              style={{ opacity: fadeAnim }}
-              className="text-gray-200 font-[QuoteMedium] text-[23px] text-center leading-[34px]"
-            >
-              {formattedQuote}
-            </Animated.Text>
+          <FlatList
+            data={[]} // 실제 리스트 항목이 없으므로 빈 배열
+            renderItem={() => null} // 필수 prop로서 더미 함수 전달
+            ListHeaderComponent={
+              <Animated.View style={{ opacity: fadeAnim }}>
+                <Text className="text-gray-200 font-[QuoteMedium] text-[23px] text-center leading-[34px]">
+                  {formattedQuote}
+                </Text>
 
-            <Animated.Text
-              style={{ opacity: fadeAnim }}
-              className="text-gray-200 font-[QuoteRegular] text-[18px] mt-10 text-center"
-            >
-              - {channelInfo?.name} -
-            </Animated.Text>
-          </ScrollView>
+                <Text className="text-gray-200 font-[QuoteRegular] text-[18px] mt-10 text-center">
+                  - {channelInfo?.name} -
+                </Text>
+              </Animated.View>
+            }
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: "center",
+            }}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
 
         <View className="w-full h-[15%] ">
