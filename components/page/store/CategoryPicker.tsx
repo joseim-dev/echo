@@ -33,7 +33,7 @@ export default function CategoryPicker({
             <Pressable
               key={item.id}
               onPress={() => setSelectedCategory(key)}
-              className={`px-3 h-fit w-fit border-2 border-[#483D90] justify-center rounded-lg mr-[6px] ${
+              className={`px-3 h-full w-fit border-2 border-[#483D90] items-center justify-center rounded-lg mr-[6px] ${
                 isSelected ? "bg-[#7765EC]" : "bg-transparent"
               }`}
             >

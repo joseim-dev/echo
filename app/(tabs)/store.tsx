@@ -50,7 +50,7 @@ export default function TabTwoScreen() {
       </View>
 
       {/* Category Picker */}
-      <View className="w-full h-[6%] pl-[5%] py-[2%]">
+      <View className="w-full h-[6%] pl-[5%] py-[1%] ">
         <CategoryPicker
           setSelectedCategory={setSelectedCategory}
           selectedCategory={selectedCategory}
