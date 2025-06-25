@@ -1,6 +1,7 @@
 import { getTodaysQuoteById, markQuoteAsRead } from "@/storage/myQuotesStorage";
 import getChannelInfo from "@/utils/getChannelInfo";
 import { Image } from "expo-image";
+import { usePostHog } from "posthog-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -24,6 +25,11 @@ export default function QuoteModal({
   const [quote, setQuote] = useState<string>("");
   const channelInfo = getChannelInfo({ id });
   const screenHeight = Dimensions.get("window").height;
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    posthog.capture("Quote Page");
+  }, []);
 
   useEffect(() => {
     const fetchQuote = async () => {

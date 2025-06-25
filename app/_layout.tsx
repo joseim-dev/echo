@@ -12,6 +12,7 @@ import "react-native-reanimated";
 
 import { AdProvider } from "@/contexts/AdContext/AdProvider";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { PostHogProvider } from "posthog-react-native";
 import { useEffect } from "react";
 import mobileAds from "react-native-google-mobile-ads";
 
@@ -44,16 +45,28 @@ export default function RootLayout() {
   }
 
   return (
-    <AdProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-          <Stack.Screen name="settings" options={{ headerShown: false }} />
-          <Stack.Screen name="notification" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </AdProvider>
+    <PostHogProvider
+      apiKey="phc_6it7ht8RBq9N6TvoDSeRTSMazrZ3KeqSxQXz3CWQqYV"
+      options={{
+        host: "https://us.i.posthog.com",
+      }}
+    >
+      <AdProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+            <Stack.Screen name="settings" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="notification"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </AdProvider>
+    </PostHogProvider>
   );
 }

@@ -36,7 +36,6 @@
           "icon": "./assets/images/notification-icon.png",
           "color": "#000000",
           "defaultChannel": "default",
-
           "enableBackgroundRemoteNotifications": false
         }
       ],
@@ -46,7 +45,6 @@
           "androidAppId": "ca-app-pub-7270360511167481~8815455094",
           "iosAppId": "ca-app-pub-7270360511167481~2820892385",
           "userTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
-
           "skAdNetworkItems": [
             "cstr6suwn9.skadnetwork",
             "4fzdc2evr5.skadnetwork",
@@ -109,10 +107,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#000000"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "bede9d90-3adb-4fa4-8d2f-3f8b8decaa86"
+      }
     }
   }
 }
