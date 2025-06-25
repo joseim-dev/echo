@@ -36,18 +36,8 @@ export default function SettingsScreen() {
         await Notifications.requestPermissionsAsync();
 
       if (newStatus === "granted") {
-        await triggerDailyNotification(
-          "You're motivators are waiting.",
-          "Start your day with motivation",
-          9,
-          0
-        );
-        await triggerDailyNotification(
-          "You're motivators are waiting.",
-          "Finish your day with motivation",
-          22,
-          0
-        );
+        await triggerDailyNotification(9, 0);
+        await triggerDailyNotification(22, 0);
         setRefreshKey((prev) => prev + 1);
       }
     }
@@ -77,8 +67,6 @@ export default function SettingsScreen() {
           setTime(selectedDate);
 
           triggerDailyNotification(
-            "Check your daily motivation",
-            "Don't miss a thing!",
             selectedDate.getHours(),
             selectedDate.getMinutes()
           );
@@ -90,12 +78,7 @@ export default function SettingsScreen() {
   };
 
   const handleAddNotification = async () => {
-    await triggerDailyNotification(
-      "Check your daily motivation",
-      "Don't miss a thing!",
-      time.getHours(),
-      time.getMinutes()
-    );
+    await triggerDailyNotification(time.getHours(), time.getMinutes());
     setModalVisible(false);
     setRefreshKey((prev) => prev + 1);
   };

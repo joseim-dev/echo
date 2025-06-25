@@ -1,3 +1,4 @@
+import { getNotificationMessage } from "@/utils/getNotificationMessage";
 import * as Notifications from "expo-notifications";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
@@ -72,35 +73,40 @@ const useLocalNotifications = () => {
   const triggerWeeklyNotification = async () => {};
 
   // 매일 정해진 시간에 예약 알림 보내기 함수
-  // 매일 정해진 시간에 예약 알림 보내기 함수
   const triggerDailyNotification = async (
-    title: string,
-    body: string,
     hour: number,
-    minute: number
+    minute: number,
+    title?: string,
+    body?: string
   ) => {
     try {
+      if (!title || !body) {
+        const message = getNotificationMessage(new Date());
+        title = title || message.title;
+        body = body || message.subtitle;
+      }
+
       const notificationId = await Notifications.scheduleNotificationAsync({
         content: {
           title,
           body,
-          badge: 1, // 뱃지 숫자 설정
-          data: { notificationType: "Daily" }, // 알림에 추가 데이터 전달
+          badge: 1,
+          data: { notificationType: "Daily" },
           sound: "default",
         },
         trigger: {
-          channelId: "default", // Add a channelId, highly recommended for Android
+          channelId: "default",
           type: Notifications.SchedulableTriggerInputTypes.DAILY,
-
           hour,
           minute,
         },
       });
-      updateBadgeCount(); // 뱃지 카운트 업데이트
-      return notificationId; // Return the notification ID
+
+      updateBadgeCount();
+      return notificationId;
     } catch (error) {
       console.error("Error scheduling notification:", error);
-      return null; // Return null in case of an error
+      return null;
     }
   };
 

@@ -44,18 +44,8 @@ export default function ChannelModal({
       if (newStatus === "granted") {
         // ✅ 알림을 이번에 처음으로 허용한 경우에만 실행할 로직
         console.log("🎉 알림 처음 허용 → 로직 실행");
-        triggerDailyNotification(
-          "You're motivators are waiting.",
-          "Start your day with motivation",
-          9,
-          0
-        );
-        triggerDailyNotification(
-          "You're motivators are waiting.",
-          "Finish your day with motivation",
-          22,
-          0
-        );
+        triggerDailyNotification(9, 0);
+        triggerDailyNotification(22, 0);
 
         if (isAdLoaded) {
           showAd();
