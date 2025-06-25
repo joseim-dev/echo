@@ -1,4 +1,4 @@
-package com.echo.app
+package com.echo.quotes
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
