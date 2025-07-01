@@ -74,6 +74,10 @@ export default function ChannelModal({
         loadAd();
         addFigureToMyQuotes(id);
         onClose();
+        Alert.alert(
+          "Channel Added!",
+          `Starting today ${name} will send you daily quotes for 30 days!`
+        );
       }
     }
   };
@@ -83,6 +87,10 @@ export default function ChannelModal({
       loadAd;
       addFigureToMyQuotes(id);
       onClose();
+      Alert.alert(
+        "Channel Added!",
+        `Starting today ${name} will send you daily quotes for 30 days!`
+      );
     } else if (!isEarnedReward && isAdClosed) {
       loadAd;
       onClose();
