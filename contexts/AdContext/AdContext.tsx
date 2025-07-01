@@ -6,6 +6,7 @@ type AdContextType = {
   adError: Error | undefined;
   isAdClosed: boolean;
   loadAd: () => void;
+  isEarnedReward: boolean | undefined;
 };
 
 export const AdContext = createContext<AdContextType | null>(null);

@@ -10,6 +10,7 @@ export const AdProvider = ({ children }: { children: React.ReactNode }) => {
     error: adError,
     load: loadAd,
     show: showAd,
+    isEarnedReward: isEarnedReward,
   } = useRewardedAd(ChannelAddRewardedAdId, {
     requestNonPersonalizedAdsOnly: true,
   });
@@ -34,6 +35,7 @@ export const AdProvider = ({ children }: { children: React.ReactNode }) => {
         adError,
         isAdClosed,
         loadAd,
+        isEarnedReward,
       }}
     >
       {children}

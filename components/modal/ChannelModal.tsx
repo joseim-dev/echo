@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import {
+  Alert,
   ImageSourcePropType,
   Modal,
   Text,
@@ -13,7 +14,6 @@ import useLocalNotifications from "@/hooks/useLocalNotifications";
 import { addFigureToMyQuotes } from "@/storage/myQuotesStorage";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
-import { Alert, Linking, Platform } from "react-native";
 
 export default function ChannelModal({
   name,
@@ -30,7 +30,8 @@ export default function ChannelModal({
   id: string;
   onClose: () => void;
 }) {
-  const { isAdLoaded, showAd, adError, isAdClosed, loadAd } = useAd();
+  const { isAdLoaded, showAd, adError, isAdClosed, loadAd, isEarnedReward } =
+    useAd();
   const { triggerDailyNotification } = useLocalNotifications();
 
   const handlePress = async () => {
@@ -56,27 +57,13 @@ export default function ChannelModal({
         }
       } else {
         // ❌ 거부된 경우: 알림 권한 필요 Alert
-        Alert.alert(
-          "Notification Permission Needed",
-          "To add this channel, please allow notifications in your settings.",
-
-          [
-            {
-              text: "Go to Settings",
-              onPress: () => {
-                if (Platform.OS === "ios") {
-                  Linking.openURL("app-settings:");
-                } else {
-                  Linking.openSettings();
-                }
-              },
-            },
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-          ]
-        );
+        if (isAdLoaded) {
+          showAd();
+        } else {
+          loadAd();
+          addFigureToMyQuotes(id);
+          onClose();
+        }
       }
     } else {
       // 🔕 이미 허용된 상태라면 아무 동작도 하지 않음
@@ -92,10 +79,14 @@ export default function ChannelModal({
   };
 
   useEffect(() => {
-    if (isAdClosed) {
+    if (isEarnedReward && isAdClosed) {
       loadAd;
       addFigureToMyQuotes(id);
       onClose();
+    } else if (!isEarnedReward && isAdClosed) {
+      loadAd;
+      onClose();
+      Alert.alert("Please watch the ad until you receive the reward.");
     }
   }, [isAdClosed]);
   return (
