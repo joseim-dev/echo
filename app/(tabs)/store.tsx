@@ -8,8 +8,6 @@ import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import React, { useEffect, useMemo, useState } from "react";
 import { FlatList, ImageSourcePropType, View } from "react-native";
 
-const mockFigures = FiguresInfo;
-
 export default function TabTwoScreen() {
   const [selectedCategory, setSelectedCategory] = useState("all");
 

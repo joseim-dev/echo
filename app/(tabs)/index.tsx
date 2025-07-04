@@ -46,7 +46,7 @@ export default function HomeScreen() {
       };
 
       fetchMyQuotes();
-    }, [update]) // update 값이 바뀌거나 화면이 포커스될 때 실행됨
+    }, [update, FiguresList]) // update 값이 바뀌거나 화면이 포커스될 때 실행됨
   );
 
   return (

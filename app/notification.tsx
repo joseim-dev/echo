@@ -22,7 +22,7 @@ export default function Notification() {
   useEffect(() => {
     fetchDeliveredNotifications();
     readAllNotifications();
-  }, []);
+  }, [readAllNotifications]);
 
   return (
     <View className="w-full h-full bg-black">

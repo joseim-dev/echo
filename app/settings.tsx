@@ -45,7 +45,7 @@ export default function SettingsScreen() {
 
   useEffect(() => {
     handleRequestPermission();
-  }, []);
+  }, [handleRequestPermission]);
 
   // 안드로이드용 imperative API 사용
   const openAndroidTimePicker = () => {
